@@ -23,7 +23,7 @@ final class SplashPresenter {
 extension SplashPresenter {
     
     private func loadContacts() {
-        contactsManager.loadContacts(withName: "Aaa") { contacts in
+        contactsManager.loadContacts(withName: "") { contacts in
             DispatchQueue.main.async {
                 let nextVC = NavigationController(rootViewController: ContactsListController(withContactsList: contacts))
                 UIApplication.shared.windows.first?.rootViewController = nextVC

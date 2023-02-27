@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6121AA9E29AA3281008F7707 /* FilteringSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6121AA9D29AA3281008F7707 /* FilteringSettingsView.swift */; };
+		6121AAA029AA3F20008F7707 /* FilteringSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6121AA9F29AA3F20008F7707 /* FilteringSettingsController.swift */; };
+		6121AAA229AB64C1008F7707 /* SortingSettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6121AAA129AB64C1008F7707 /* SortingSettingsView.swift */; };
+		6121AAA429AB6A0F008F7707 /* SortingSettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6121AAA329AB6A0F008F7707 /* SortingSettingsController.swift */; };
 		6172D49A29A774B40050FB93 /* ContactsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6172D49929A774B40050FB93 /* ContactsManager.swift */; };
 		6172D49C29A7750E0050FB93 /* Contact.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6172D49B29A7750E0050FB93 /* Contact.swift */; };
 		6172D49E29A79C850050FB93 /* SplashPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6172D49D29A79C850050FB93 /* SplashPresenter.swift */; };
@@ -26,9 +30,14 @@
 		6180968A29A769CE00BFD13E /* UICreator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180968929A769CE00BFD13E /* UICreator.swift */; };
 		6180968E29A76DB300BFD13E /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180968D29A76DB300BFD13E /* Constants.swift */; };
 		6180969029A76F7200BFD13E /* SplashController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180968F29A76F7200BFD13E /* SplashController.swift */; };
+		6188017E29ACC5E8003644B8 /* UIButton+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6188017D29ACC5E7003644B8 /* UIButton+Extensions.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6121AA9D29AA3281008F7707 /* FilteringSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringSettingsView.swift; sourceTree = "<group>"; };
+		6121AA9F29AA3F20008F7707 /* FilteringSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilteringSettingsController.swift; sourceTree = "<group>"; };
+		6121AAA129AB64C1008F7707 /* SortingSettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingSettingsView.swift; sourceTree = "<group>"; };
+		6121AAA329AB6A0F008F7707 /* SortingSettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SortingSettingsController.swift; sourceTree = "<group>"; };
 		6172D49929A774B40050FB93 /* ContactsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactsManager.swift; sourceTree = "<group>"; };
 		6172D49B29A7750E0050FB93 /* Contact.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Contact.swift; sourceTree = "<group>"; };
 		6172D49D29A79C850050FB93 /* SplashPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashPresenter.swift; sourceTree = "<group>"; };
@@ -51,6 +60,7 @@
 		6180968C29A76BEE00BFD13E /* SF-Pro.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SF-Pro.ttf"; sourceTree = "<group>"; };
 		6180968D29A76DB300BFD13E /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		6180968F29A76F7200BFD13E /* SplashController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashController.swift; sourceTree = "<group>"; };
+		6188017D29ACC5E7003644B8 /* UIButton+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIButton+Extensions.swift"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +122,8 @@
 				6180968729A7691400BFD13E /* SplashView.swift */,
 				6172D4A329A7AE510050FB93 /* ContactCell.swift */,
 				6172D4A129A7ACFF0050FB93 /* ContactsListView.swift */,
+				6121AA9D29AA3281008F7707 /* FilteringSettingsView.swift */,
+				6121AAA129AB64C1008F7707 /* SortingSettingsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -122,6 +134,8 @@
 				6172D49F29A7ABDE0050FB93 /* NavigationController.swift */,
 				6180968F29A76F7200BFD13E /* SplashController.swift */,
 				6172D4A729A7B6DC0050FB93 /* ContactsListController.swift */,
+				6121AA9F29AA3F20008F7707 /* FilteringSettingsController.swift */,
+				6121AAA329AB6A0F008F7707 /* SortingSettingsController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -142,6 +156,7 @@
 				6180968329A768D600BFD13E /* UIColor+Extensions.swift */,
 				6180968429A768D600BFD13E /* UIView+Extensions.swift */,
 				6172D4A529A7AF9E0050FB93 /* UIFont+Extensions.swift */,
+				6188017D29ACC5E7003644B8 /* UIButton+Extensions.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -237,12 +252,16 @@
 				6172D4A229A7ACFF0050FB93 /* ContactsListView.swift in Sources */,
 				6180966029A7662000BFD13E /* AppDelegate.swift in Sources */,
 				6172D4A029A7ABDE0050FB93 /* NavigationController.swift in Sources */,
+				6121AAA029AA3F20008F7707 /* FilteringSettingsController.swift in Sources */,
 				6172D49A29A774B40050FB93 /* ContactsManager.swift in Sources */,
 				6172D49C29A7750E0050FB93 /* Contact.swift in Sources */,
 				6180968629A768D600BFD13E /* UIView+Extensions.swift in Sources */,
+				6121AA9E29AA3281008F7707 /* FilteringSettingsView.swift in Sources */,
 				6172D4A829A7B6DC0050FB93 /* ContactsListController.swift in Sources */,
+				6188017E29ACC5E8003644B8 /* UIButton+Extensions.swift in Sources */,
 				6172D49E29A79C850050FB93 /* SplashPresenter.swift in Sources */,
 				6180966229A7662000BFD13E /* SceneDelegate.swift in Sources */,
+				6121AAA429AB6A0F008F7707 /* SortingSettingsController.swift in Sources */,
 				6180968A29A769CE00BFD13E /* UICreator.swift in Sources */,
 				6180968529A768D600BFD13E /* UIColor+Extensions.swift in Sources */,
 				6172D4AA29A7B7270050FB93 /* ContactsListPresenter.swift in Sources */,
@@ -250,6 +269,7 @@
 				6180968E29A76DB300BFD13E /* Constants.swift in Sources */,
 				6172D4A429A7AE510050FB93 /* ContactCell.swift in Sources */,
 				6172D4A629A7AF9E0050FB93 /* UIFont+Extensions.swift in Sources */,
+				6121AAA229AB64C1008F7707 /* SortingSettingsView.swift in Sources */,
 				6180969029A76F7200BFD13E /* SplashController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

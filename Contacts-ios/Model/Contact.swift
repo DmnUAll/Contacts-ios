@@ -1,7 +1,9 @@
 import Foundation
 
-struct Contact {
+struct Contact: Hashable {
     let name: String?
+    let firstName: String?
+    let surname: String?
     let phone: String?
     let image: Data?
     let eMail: String?

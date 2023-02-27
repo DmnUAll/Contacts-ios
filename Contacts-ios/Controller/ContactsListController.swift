@@ -8,6 +8,9 @@ final class ContactsListController: UIViewController {
     
     private let contactsListView = ContactsListView()
     private var presenter: ContactsListPresenter?
+    private var gestureDict : [NSValue: Int]  = [:]
+    private var draggingLeft : Bool = false
+    private var dragging: Int = 0
     
     convenience init(withContactsList contactsList: [Contact]) {
         self.init()
@@ -20,6 +23,7 @@ final class ContactsListController: UIViewController {
         view.backgroundColor = .ypFullBlack
         addSubviews()
         setupConstraints()
+        (navigationController as? NavigationController)?.buttonsDelegate = self
         contactsListView.contactsTableView.dataSource = self
         contactsListView.contactsTableView.delegate = self
     }
@@ -42,6 +46,21 @@ extension ContactsListController {
     }
 }
 
+extension ContactsListController: NavigationControllerButtonsDelegate {
+    
+    func proceedToSortingSettings() {
+        let sortingVC = SortingSettingsController(withCurrentSortingKeys: presenter?.giveCurrentSortingKeys() ?? [])
+        sortingVC.delegate = self
+        present(sortingVC, animated: true)
+    }
+    
+    func proceedToFilteringSettings() {
+        let filteringVC = FilteringSettingsController(withCurrentFilterKeys: presenter?.giveCurrentFilterKeys() ?? [])
+        filteringVC.delegate = self
+        present(filteringVC, animated: true)
+    }
+}
+
 extension ContactsListController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -55,4 +74,52 @@ extension ContactsListController: UITableViewDataSource {
 
 extension ContactsListController: UITableViewDelegate {
     
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        let removeButton = UIContextualAction(style: .destructive,
+                                                     title: "Удалить") { [weak self] _, _, _ in
+            guard let self else { return }
+            let alertController = UIAlertController(title: "Уверены что хотите удалить контакт?", message: nil, preferredStyle: .actionSheet)
+            let deleteAction = UIAlertAction(title: "Удалить", style: .destructive) { _ in
+                self.presenter?.removeContact(at: indexPath)
+                tableView.deleteRows(at: [indexPath], with: .automatic)
+            }
+            let cancelAction = UIAlertAction(title: "Отменить", style: .cancel) { _ in
+                tableView.reloadRows(at: [indexPath], with: .none)
+            }
+            alertController.addAction(deleteAction)
+            alertController.addAction(cancelAction)
+            self.present(alertController, animated: true)
+        }
+        removeButton.backgroundColor = UIColor.ypRed
+
+        let config = UISwipeActionsConfiguration(actions: [removeButton])
+        config.performsFirstActionWithFullSwipe = true
+        return config
+    }
+}
+
+extension ContactsListController: FilteringDelegate {
+    func proceedFiltering(withKeys keys: [Bool]) {
+        guard let button = navigationItem.titleView?.subviews[2] as? UIButton else { return }
+        if keys.filter({ $0 == true }).count == 0 || keys.filter({ $0 == false }).count == 0 {
+            button.removeBadge()
+        } else {
+            button.addBadge()
+        }
+        presenter?.filterContacts(with: keys)
+        contactsListView.contactsTableView.reloadData()
+    }
+}
+
+extension ContactsListController: SortingDelegate {
+    func proceedSorting(withKeys keys: [Bool]) {
+        guard let button = navigationItem.titleView?.subviews[1] as? UIButton else { return }
+        if keys[0] == true {
+            button.removeBadge()
+        } else {
+            button.addBadge()
+        }
+        presenter?.sortContacts(withKeys: keys)
+        contactsListView.contactsTableView.reloadData()
+    }
 }

@@ -6,7 +6,7 @@ struct UICreator {
     static let shared = UICreator()
     
     func makeLabel(text: String? = nil,
-                   font: UIFont?,
+                   font: UIFont? = UIFont.appFont(.regular, withSize: 16),
                    alignment: NSTextAlignment = .center,
                    color: UIColor = .ypWhite
     ) -> UILabel {

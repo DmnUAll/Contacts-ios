@@ -1,7 +1,14 @@
 import UIKit
 
+protocol NavigationControllerButtonsDelegate: AnyObject {
+    func proceedToSortingSettings()
+    func proceedToFilteringSettings()
+}
+
 // MARK: - NavigationController
 final class NavigationController: UINavigationController {
+    
+    weak var buttonsDelegate: NavigationControllerButtonsDelegate?
 
     // MARK: - Properties and Initializers
     override var preferredStatusBarStyle: UIStatusBarStyle {
@@ -22,11 +29,11 @@ final class NavigationController: UINavigationController {
 extension NavigationController {
     
     @objc private func sortingButtonTapped() {
-        print(#function)
+        buttonsDelegate?.proceedToSortingSettings()
     }
     
     @objc private func filterButtonTapped() {
-        print(#function)
+        buttonsDelegate?.proceedToFilteringSettings()
     }
     
     private func configureNavigationController() {
@@ -40,13 +47,13 @@ extension NavigationController {
 
         let sortingButton = UICreator.shared.makeButton(image: UIImage(named: K.IconsNames.sortingIcon), action: #selector(sortingButtonTapped))
         let filterButton = UICreator.shared.makeButton(image: UIImage(named: K.IconsNames.filterIcon), action: #selector(filterButtonTapped))
-        
-        let hStack = UICreator.shared.makeStackView(alignment: .center)
+        sortingButton.clipsToBounds = false
+        filterButton.clipsToBounds = false
+
+        let hStack = UICreator.shared.makeStackView(addingSpacing: 21)
         hStack.addArrangedSubview(titleLabel)
         hStack.addArrangedSubview(sortingButton)
         hStack.addArrangedSubview(filterButton)
-        hStack.spacing = 21
-        hStack.alignment = .center
         
         NSLayoutConstraint.activate([
             hStack.widthAnchor.constraint(equalToConstant: UIScreen.main.bounds.width)

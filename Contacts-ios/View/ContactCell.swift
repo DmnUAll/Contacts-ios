@@ -28,6 +28,7 @@ final class ContactCell: UITableViewCell {
         activateAutoLauout()
         addSubviews()
         setupConstraints()
+        contactNameLabel.baselineAdjustment = .alignBaselines
     }
 
     required init?(coder aDecoder: NSCoder) {
@@ -75,9 +76,9 @@ extension ContactCell {
             contactImage.leadingAnchor.constraint(equalTo: contactView.leadingAnchor, constant: 12),
             contactImage.topAnchor.constraint(equalTo: contactView.topAnchor, constant: 12),
             contactImage.bottomAnchor.constraint(equalTo: contactView.bottomAnchor, constant: -12),
-            contactNameLabel.heightAnchor.constraint(equalToConstant: 24),
+            contactNameLabel.heightAnchor.constraint(equalToConstant: 30),
             contactNameLabel.leadingAnchor.constraint(equalTo: contactImage.trailingAnchor, constant: 12),
-            contactNameLabel.topAnchor.constraint(equalTo: contactView.topAnchor, constant: 18),
+            contactNameLabel.topAnchor.constraint(equalTo: contactView.topAnchor, constant: 12),
             contactNameLabel.trailingAnchor.constraint(equalTo: contactView.trailingAnchor, constant: -12),
             contactPhoneNumber.leadingAnchor.constraint(equalTo: contactImage.trailingAnchor, constant: 12),
             contactPhoneNumber.topAnchor.constraint(equalTo: contactNameLabel.bottomAnchor, constant: 12),
@@ -91,7 +92,7 @@ extension ContactCell {
     }
     
     private func makeCommunicationIcon(named name: String) -> UIImageView {
-        let icon = UICreator.shared.makeImageView(withImage: UIImage(named: name), cornerRadius: 12, borderWidth: 1.5, isHidden: true)
+        let icon = UICreator.shared.makeImageView(withImage: UIImage(named: name), cornerRadius: 12, borderWidth: 2, isHidden: true)
         NSLayoutConstraint.activate([
             icon.heightAnchor.constraint(equalToConstant: 24),
             icon.widthAnchor.constraint(equalTo: icon.heightAnchor, multiplier: 1)

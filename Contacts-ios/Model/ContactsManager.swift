@@ -46,7 +46,6 @@ extension ContactsManager: ContactsAccessAndLoadingProtocol {
                     let predicate = CNContact.predicateForContacts(matchingName: name)
                     cnContacts = try self.store.unifiedContacts(matching: predicate, keysToFetch: keys)
                 }
-                print(cnContacts)
                 let contacts = cnContacts.map { cnContact in
                     let phoneLabeledValue = cnContact.phoneNumbers.first {
                         $0.label == CNLabelPhoneNumberMobile
@@ -85,6 +84,8 @@ extension ContactsManager: ContactsAccessAndLoadingProtocol {
                     
                     return Contact(
                         name: "\(cnContact.givenName) \(cnContact.familyName)",
+                        firstName: cnContact.givenName,
+                        surname: cnContact.familyName,
                         phone: phone,
                         image: cnContact.imageData,
                         eMail: eMail,
