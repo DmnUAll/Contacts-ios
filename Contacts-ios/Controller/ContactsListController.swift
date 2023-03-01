@@ -10,9 +10,6 @@ final class ContactsListController: UIViewController {
 
     private let contactsListView = ContactsListView()
     private var presenter: ContactsListPresenter?
-    private var gestureDict: [NSValue: Int]  = [:]
-    private var draggingLeft: Bool = false
-    private var dragging: Int = 0
 
     convenience init(withContactsList contactsList: [Contact]) {
         self.init()
