@@ -8,9 +8,9 @@ protocol NavigationControllerButtonsDelegate: AnyObject {
 // MARK: - NavigationController
 final class NavigationController: UINavigationController {
 
+    // MARK: - Properties and Initializers
     weak var buttonsDelegate: NavigationControllerButtonsDelegate?
 
-    // MARK: - Properties and Initializers
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return topViewController?.preferredStatusBarStyle ?? .default
     }

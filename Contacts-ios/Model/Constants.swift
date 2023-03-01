@@ -3,7 +3,7 @@ import Foundation
 // MARK: - K
 // swiftlint: disable type_name
 struct K {
-// swiftlint: enable type_name
+    // swiftlint: enable type_name
     struct CNContactLabelKeys {
 
         static let home = "_$!<Home>!$_"

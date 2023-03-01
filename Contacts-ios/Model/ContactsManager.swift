@@ -5,7 +5,6 @@ import Contacts
 protocol ContactsAccessAndLoadingProtocol: AnyObject {
     func requestAccess(completion: @escaping (Bool) -> Void)
     func loadContacts(withName name: String, completion: @escaping ([Contact]) -> Void)
-
 }
 
 // MARK: - ContactsManager

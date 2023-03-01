@@ -89,7 +89,7 @@ extension FilteringSettingsController: FilteringSettingsViewProtocol {
         } else {
             checkboxes[0].image = deselectedCheckbox
         }
-       activateApplyButtonIfNeeded()
+        activateApplyButtonIfNeeded()
     }
 
     func cancelFiltering() {
