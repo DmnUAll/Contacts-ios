@@ -5,7 +5,7 @@ import Foundation
 struct K {
 // swiftlint: enable type_name
     struct CNContactLabelKeys {
-        
+
         static let home = "_$!<Home>!$_"
         static let telegram = "Telegram"
         static let whatsApp = "WhatsApp"
@@ -32,14 +32,14 @@ struct K {
         static let signalIcon = "signalIcon"
         static let threemaIcon = "threemaIcon"
     }
-    
+
     struct QueueNames {
-        
+
         static let contactsQueue = "contacts-queue"
     }
-    
+
     struct CellIdentifiers {
-        
+
         static let contactCell = "contactCell"
     }
 }

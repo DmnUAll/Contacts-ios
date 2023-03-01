@@ -1,15 +1,25 @@
 import UIKit
 
+// MARK: - SortingDelegate protocol
 protocol SortingDelegate: AnyObject {
     func proceedSorting(withKeys keys: [Bool])
 }
 
+// MARK: - SortingSettingsController
 final class SortingSettingsController: UIViewController {
-    
+
+    // MARK: - Properties and Initializers
     private let sortingSettingsView = SortingSettingsView()
     weak var delegate: SortingDelegate?
     private var givenKeys: [Bool] = []
-    
+
+    convenience init(withCurrentSortingKeys keys: [Bool]) {
+        self.init()
+        givenKeys = keys
+        updateRadioButtonState(forTag: keys.firstIndex(of: true) ?? 0)
+    }
+
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypFullBlack
@@ -17,20 +27,15 @@ final class SortingSettingsController: UIViewController {
         setupConstraints()
         sortingSettingsView.delegate = self
     }
-    
-    convenience init(withCurrentSortingKeys keys: [Bool]) {
-        self.init()
-        givenKeys = keys
-        updateRadioButtonState(forTag: keys.firstIndex(of: true) ?? 0)
-    }
 }
 
+// MARK: - Helpers
 extension SortingSettingsController {
-    
+
     private func addSubviews() {
         view.addSubview(sortingSettingsView)
     }
-    
+
     private func setupConstraints() {
         let constraints = [
             sortingSettingsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -40,7 +45,7 @@ extension SortingSettingsController {
         ]
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     private func activateApplyButtonIfNeeded() {
         let selectedImage = UIImage(named: K.IconsNames.selectedRadioButtonIcon)
         let keysToCompare = sortingSettingsView.radioButtonsCollection.map {$0.image == selectedImage ? true : false}
@@ -52,8 +57,9 @@ extension SortingSettingsController {
     }
 }
 
+// MARK: - SortinSettingsViewProtocol
 extension SortingSettingsController: SortingSettingsViewProtocol {
-    
+
     func updateRadioButtonState(forTag tag: Int) {
         var radioButtons = sortingSettingsView.radioButtonsCollection
         radioButtons[tag].image = UIImage(named: K.IconsNames.selectedRadioButtonIcon)
@@ -63,7 +69,7 @@ extension SortingSettingsController: SortingSettingsViewProtocol {
         }
         activateApplyButtonIfNeeded()
     }
-    
+
     func cancelSorting() {
         sortingSettingsView.radioButtonsCollection.forEach { radioButton in
             radioButton.image = UIImage(named: K.IconsNames.deselectedRadioButtonIcon)
@@ -71,7 +77,7 @@ extension SortingSettingsController: SortingSettingsViewProtocol {
         sortingSettingsView.radioButtonsCollection[0].image = UIImage(named: K.IconsNames.selectedRadioButtonIcon)
         activateApplyButtonIfNeeded()
     }
-    
+
     func applySorting() {
         let selectedImage = UIImage(named: K.IconsNames.selectedRadioButtonIcon)
         let keys = sortingSettingsView.radioButtonsCollection.map {$0.image == selectedImage ? true : false}

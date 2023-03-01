@@ -1,15 +1,28 @@
 import UIKit
 
+// MARK: - FilteringDelegateProtocol
 protocol FilteringDelegate: AnyObject {
     func proceedFiltering(withKeys keys: [Bool])
 }
 
+// MARK: - FilteringSettingsController
 final class FilteringSettingsController: UIViewController {
-    
+
+    // MARK: - Properties and Initializers
     private let filteringSettingsView = FilteringSettingsView()
     weak var delegate: FilteringDelegate?
     private var givenKeys: [Bool] = []
-    
+
+    convenience init(withCurrentFilterKeys keys: [Bool]) {
+        let selelctedCheckbox = UIImage(named: K.IconsNames.selectedCheckboxIcon)
+        self.init()
+        givenKeys = keys
+        for index in 0..<keys.count where keys[index] {
+            filteringSettingsView.checkboxesCollection[index].image = selelctedCheckbox
+        }
+    }
+
+    // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .ypFullBlack
@@ -17,24 +30,15 @@ final class FilteringSettingsController: UIViewController {
         setupConstraints()
         filteringSettingsView.delegate = self
     }
-    
-    convenience init(withCurrentFilterKeys keys: [Bool]) {
-        self.init()
-        givenKeys = keys
-        for index in 0..<keys.count {
-            if keys[index] {
-                filteringSettingsView.checkboxesCollection[index].image = UIImage(named: K.IconsNames.selectedCheckboxIcon)
-            }
-        }
-    }
 }
 
+// MARK: - Helpers
 extension FilteringSettingsController {
-    
+
     private func addSubviews() {
         view.addSubview(filteringSettingsView)
     }
-    
+
     private func setupConstraints() {
         let constraints = [
             filteringSettingsView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -44,7 +48,7 @@ extension FilteringSettingsController {
         ]
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     private func activateApplyButtonIfNeeded() {
         let selectedImage = UIImage(named: K.IconsNames.selectedCheckboxIcon)
         let keysToCompare = filteringSettingsView.checkboxesCollection.map {$0.image == selectedImage ? true : false}
@@ -56,37 +60,45 @@ extension FilteringSettingsController {
     }
 }
 
+// MARK: - FilteringSettingsViewProtocol
 extension FilteringSettingsController: FilteringSettingsViewProtocol {
-    
+
     func updateCheckboxState(forTag tag: Int) {
+        let selectedCheckbox  = UIImage(named: K.IconsNames.selectedCheckboxIcon)
+        let deselectedCheckbox = UIImage(named: K.IconsNames.deselectedCheckboxIcon)
         let checkboxes = filteringSettingsView.checkboxesCollection
         if tag == 0 {
-            if checkboxes[0].image == UIImage(named: K.IconsNames.selectedCheckboxIcon) {
+            if checkboxes[0].image == selectedCheckbox {
                 checkboxes.forEach { checkbox in
-                    checkbox.image = UIImage(named: K.IconsNames.deselectedCheckboxIcon)
+                    checkbox.image = deselectedCheckbox
                 }
             } else {
                 checkboxes.forEach { checkbox in
-                    checkbox.image = UIImage(named: K.IconsNames.selectedCheckboxIcon)
+                    checkbox.image = selectedCheckbox
                 }
             }
         } else if tag > 0 {
-            if checkboxes[tag].image == UIImage(named: K.IconsNames.selectedCheckboxIcon) {
-                checkboxes[tag].image = UIImage(named: K.IconsNames.deselectedCheckboxIcon)
+            if checkboxes[tag].image == selectedCheckbox {
+                checkboxes[tag].image = deselectedCheckbox
             } else {
-                checkboxes[tag].image = UIImage(named: K.IconsNames.selectedCheckboxIcon)
+                checkboxes[tag].image = selectedCheckbox
             }
+        }
+        if checkboxes[1...7].filter({ $0.image == selectedCheckbox }).count == 7 {
+            checkboxes[0].image = selectedCheckbox
+        } else {
+            checkboxes[0].image = deselectedCheckbox
         }
        activateApplyButtonIfNeeded()
     }
-    
+
     func cancelFiltering() {
         filteringSettingsView.checkboxesCollection.forEach { checkbox in
             checkbox.image = UIImage(named: K.IconsNames.deselectedCheckboxIcon)
         }
         activateApplyButtonIfNeeded()
     }
-    
+
     func applyFiltering() {
         let selectedImage = UIImage(named: K.IconsNames.selectedCheckboxIcon)
         let keys = filteringSettingsView.checkboxesCollection.map {$0.image == selectedImage ? true : false}

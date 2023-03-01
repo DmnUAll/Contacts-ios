@@ -1,20 +1,24 @@
 import Foundation
 import Contacts
 
+// MARK: - ContactsAccessAndLoadingProtocol protocol
 protocol ContactsAccessAndLoadingProtocol: AnyObject {
     func requestAccess(completion: @escaping (Bool) -> Void)
     func loadContacts(withName name: String, completion: @escaping ([Contact]) -> Void)
 
 }
 
+// MARK: - ContactsManager
 final class ContactsManager {
-    
+
+    // MARK: - Properties and Inititalizers
     private let store = CNContactStore()
     private let queue = DispatchQueue(label: K.QueueNames.contactsQueue)
 }
 
+// MARK: - Helpers
 extension ContactsManager: ContactsAccessAndLoadingProtocol {
-    
+
     func requestAccess(completion: @escaping (Bool) -> Void) {
         store.requestAccess(for: .contacts) { isGranted, error in
             if let error {
@@ -23,7 +27,7 @@ extension ContactsManager: ContactsAccessAndLoadingProtocol {
             completion(isGranted)
         }
     }
-    
+
     func loadContacts(withName name: String, completion: @escaping ([Contact]) -> Void) {
         let keys = [
             CNContactGivenNameKey,
@@ -47,54 +51,7 @@ extension ContactsManager: ContactsAccessAndLoadingProtocol {
                     cnContacts = try self.store.unifiedContacts(matching: predicate, keysToFetch: keys)
                 }
                 let contacts = cnContacts.map { cnContact in
-                    let phoneLabeledValue = cnContact.phoneNumbers.first {
-                        $0.label == CNLabelPhoneNumberMobile
-                    }
-                    let phone = phoneLabeledValue?.value.stringValue
-                    
-                    let eMailLabeledValue = cnContact.emailAddresses.first {
-                        $0.label == K.CNContactLabelKeys.home
-                    }
-                    let eMail = eMailLabeledValue?.value as? String
-
-                    let telegramLabeledValue = cnContact.instantMessageAddresses.first {
-                        $0.label ==  K.CNContactLabelKeys.telegram
-                    }
-                    let telegramUsername = telegramLabeledValue?.value.username
-
-                    let whatsAppLabeledValue = cnContact.instantMessageAddresses.first {
-                        $0.label ==  K.CNContactLabelKeys.whatsApp
-                    }
-                    let whatsAppUsername = whatsAppLabeledValue?.value.username
-                    
-                    let viberLabeledValue = cnContact.instantMessageAddresses.first {
-                        $0.label ==  K.CNContactLabelKeys.viber
-                    }
-                    let viberUsername = viberLabeledValue?.value.username
-                    
-                    let threemaLabeledValue = cnContact.instantMessageAddresses.first {
-                        $0.label ==  K.CNContactLabelKeys.threema
-                    }
-                    let threemaUsername = threemaLabeledValue?.value.username
-                    
-                    let signalLabeledValue = cnContact.instantMessageAddresses.first {
-                        $0.label ==  K.CNContactLabelKeys.signal
-                    }
-                    let signalUsername = signalLabeledValue?.value.username
-                    
-                    return Contact(
-                        name: "\(cnContact.givenName) \(cnContact.familyName)",
-                        firstName: cnContact.givenName,
-                        surname: cnContact.familyName,
-                        phone: phone,
-                        image: cnContact.imageData,
-                        eMail: eMail,
-                        telegramUsername: telegramUsername,
-                        whatsAppUsername: whatsAppUsername,
-                        viberUsername: viberUsername,
-                        threemaUsername: threemaUsername,
-                        signalUsername: signalUsername
-                    )
+                    self.parseContact(from: cnContact)
                 }
                 DispatchQueue.main.async {
                     completion(contacts)
@@ -105,5 +62,51 @@ extension ContactsManager: ContactsAccessAndLoadingProtocol {
                 }
             }
         }
+    }
+
+    private func parseContact(from cnContact: CNContact) -> Contact {
+        let phoneLabeledValue = cnContact.phoneNumbers.first {
+            $0.label == CNLabelPhoneNumberMobile
+        }
+        let phone = phoneLabeledValue?.value.stringValue
+        let eMailLabeledValue = cnContact.emailAddresses.first {
+            $0.label == K.CNContactLabelKeys.home
+        }
+        let eMail = eMailLabeledValue?.value as? String
+
+        let telegramLabeledValue = cnContact.instantMessageAddresses.first {
+            $0.label ==  K.CNContactLabelKeys.telegram
+        }
+        let telegramUsername = telegramLabeledValue?.value.username
+
+        let whatsAppLabeledValue = cnContact.instantMessageAddresses.first {
+            $0.label ==  K.CNContactLabelKeys.whatsApp
+        }
+        let whatsAppUsername = whatsAppLabeledValue?.value.username
+        let viberLabeledValue = cnContact.instantMessageAddresses.first {
+            $0.label ==  K.CNContactLabelKeys.viber
+        }
+        let viberUsername = viberLabeledValue?.value.username
+        let threemaLabeledValue = cnContact.instantMessageAddresses.first {
+            $0.label ==  K.CNContactLabelKeys.threema
+        }
+        let threemaUsername = threemaLabeledValue?.value.username
+        let signalLabeledValue = cnContact.instantMessageAddresses.first {
+            $0.label ==  K.CNContactLabelKeys.signal
+        }
+        let signalUsername = signalLabeledValue?.value.username
+        return Contact(
+            name: "\(cnContact.givenName) \(cnContact.familyName)",
+            firstName: cnContact.givenName,
+            surname: cnContact.familyName,
+            phone: phone,
+            image: cnContact.imageData,
+            eMail: eMail,
+            telegramUsername: telegramUsername,
+            whatsAppUsername: whatsAppUsername,
+            viberUsername: viberUsername,
+            threemaUsername: threemaUsername,
+            signalUsername: signalUsername
+        )
     }
 }

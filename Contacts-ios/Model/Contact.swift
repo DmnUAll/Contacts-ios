@@ -1,6 +1,8 @@
 import Foundation
 
+// MARK: - Contact
 struct Contact: Hashable {
+
     let name: String?
     let firstName: String?
     let surname: String?

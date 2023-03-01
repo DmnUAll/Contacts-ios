@@ -1,14 +1,16 @@
 import UIKit
 
+// MARK: - SplashController
 final class SplashController: UIViewController {
-    
+
+    // MARK: - Properties and Initializers
     override var preferredStatusBarStyle: UIStatusBarStyle {
         return .lightContent
     }
 
     private let splashView = SplashView()
     private var presenter: SplashPresenter?
-    
+
     // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -21,12 +23,13 @@ final class SplashController: UIViewController {
     }
 }
 
+// MARK: - Helpers
 extension SplashController {
-    
+
     private func addSubviews() {
         view.addSubview(splashView)
     }
-    
+
     private func setupConstraints() {
         let constraints = [
             splashView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -36,7 +39,7 @@ extension SplashController {
         ]
         NSLayoutConstraint.activate(constraints)
     }
-    
+
     func accessDenied() {
         DispatchQueue.main.async { [weak self] in
             guard let self else { return }
@@ -45,10 +48,12 @@ extension SplashController {
     }
 }
 
-
+// MARK: - SplashViewProtocol
 extension SplashController: SplashViewProtocol {
-    
+
     func proceedToSettings() {
-        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!, options: [:], completionHandler: nil)
+        UIApplication.shared.open(URL(string: UIApplication.openSettingsURLString)!,
+                                  options: [:],
+                                  completionHandler: nil)
     }
 }

@@ -1,13 +1,15 @@
 import UIKit
 
+// MARK: - ContactsListPresenter
 final class ContactsListPresenter {
-    
+
+    // MARK: - Properties and Initialziers
     private weak var viewController: ContactsListController?
     private var contactsList: [Contact] = []
     private var editableContactsList: [Contact] = []
     private var currentFilterKeys: [Bool] = [false, false, false, false, false, false, false, false]
     private var currentSortingKeys: [Bool] = [true, false, false, false]
-    
+
     init(viewController: ContactsListController? = nil, contactsList: [Contact]) {
         self.viewController = viewController
         self.contactsList = contactsList
@@ -16,15 +18,17 @@ final class ContactsListPresenter {
     }
 }
 
+// MARK: - Helpers
 extension ContactsListPresenter {
-    
-    
+
     func giveContactsAmount() -> Int {
         return editableContactsList.count
     }
 
     func configureCell(forTableView tableView: UITableView, at indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: K.CellIdentifiers.contactCell) as? ContactCell else {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: K.CellIdentifiers.contactCell
+        ) as? ContactCell else {
             return UITableViewCell()
         }
         let contact = editableContactsList[indexPath.row]
@@ -37,7 +41,6 @@ extension ContactsListPresenter {
         cell.threemaImage.isHidden = contact.threemaUsername == nil
         cell.phoneImage.isHidden = contact.phone == nil
         cell.eMailImage.isHidden = contact.eMail == nil
-        
         if let imageData = editableContactsList[indexPath.row].image {
             cell.contactImage.image = UIImage(data: imageData)
             cell.contactImage.contentMode = .scaleAspectFill
@@ -47,55 +50,54 @@ extension ContactsListPresenter {
         }
         return cell
     }
-    
+
     func removeContact(at indexPath: IndexPath) {
         editableContactsList.remove(at: indexPath.row)
     }
-    
+
     func filterContacts(with keys: [Bool]) {
         currentFilterKeys = keys
-        if keys[0] == true || keys.filter({ $0 == true }).count == 0 {
+        if keys.filter({ $0 == true }).count == 0 {
             editableContactsList = contactsList
             return
         }
-        var filterResult: [Contact] = []
-        for index in 1..<keys.count {
-            if keys[index] == true {
-                filterResult.append(contentsOf: addContactsToList(forKey: index))
-            }
+        var filterResult: [Contact] = contactsList
+        for index in 1..<keys.count where  keys[index] == true {
+            filterResult = addFilter(withKey: index, toList: filterResult)
         }
         editableContactsList = Array(Set(filterResult))
+        sortContacts(withKeys: currentSortingKeys)
     }
-    
+
     func giveCurrentFilterKeys() -> [Bool] {
         currentFilterKeys
     }
-    
-    private func addContactsToList(forKey key: Int) -> [Contact] {
+
+    private func addFilter(withKey key: Int, toList list: [Contact]) -> [Contact] {
         switch key {
         case 1:
-            return contactsList.filter { $0.telegramUsername != nil }
+            return list.filter { $0.telegramUsername != nil }
         case 2:
-            return contactsList.filter { $0.whatsAppUsername != nil }
+            return list.filter { $0.whatsAppUsername != nil }
         case 3:
-            return contactsList.filter { $0.viberUsername != nil }
+            return list.filter { $0.viberUsername != nil }
         case 4:
-            return contactsList.filter { $0.signalUsername != nil }
+            return list.filter { $0.signalUsername != nil }
         case 5:
-            return contactsList.filter { $0.threemaUsername != nil }
+            return list.filter { $0.threemaUsername != nil }
         case 6:
-            return contactsList.filter { $0.phone != nil }
+            return list.filter { $0.phone != nil }
         case 7:
-            return contactsList.filter { $0.eMail != nil }
+            return list.filter { $0.eMail != nil }
         default:
             return []
         }
     }
-    
+
     func giveCurrentSortingKeys() -> [Bool] {
         currentSortingKeys
     }
-    
+
     func sortContacts(withKeys keys: [Bool]) {
         currentSortingKeys = keys
         let sortingKey = keys.firstIndex(of: true)

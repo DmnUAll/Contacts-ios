@@ -4,7 +4,7 @@ import UIKit
 struct UICreator {
 
     static let shared = UICreator()
-    
+
     func makeLabel(text: String? = nil,
                    font: UIFont? = UIFont.appFont(.regular, withSize: 16),
                    alignment: NSTextAlignment = .center,
@@ -18,7 +18,12 @@ struct UICreator {
         return label
     }
 
-    func makeImageView(withImage image: UIImage? = nil, backgroundColor: UIColor = .clear, cornerRadius: CGFloat = 0, borderWidth: CGFloat = 0, isHidden: Bool = false) -> UIImageView {
+    func makeImageView(withImage image: UIImage? = nil,
+                       backgroundColor: UIColor = .clear,
+                       cornerRadius: CGFloat = 0,
+                       borderWidth: CGFloat = 0,
+                       isHidden: Bool = false
+    ) -> UIImageView {
         let imageView = UIImageView()
         imageView.isHidden = isHidden
         imageView.image = image
@@ -29,8 +34,13 @@ struct UICreator {
         imageView.layer.masksToBounds = true
         return imageView
     }
-    
-    func makeButton(withTitle title: String? = nil, backgroundColor: UIColor = .clear, image: UIImage? = nil, cornerRadius: CGFloat = 0, action: Selector) -> UIButton {
+
+    func makeButton(withTitle title: String? = nil,
+                    backgroundColor: UIColor = .clear,
+                    image: UIImage? = nil,
+                    cornerRadius: CGFloat = 0,
+                    action: Selector
+    ) -> UIButton {
         let button = UIButton()
         button.backgroundColor = backgroundColor
         button.titleLabel?.font = UIFont.appFont(.medium, withSize: 16)
@@ -42,7 +52,7 @@ struct UICreator {
         button.addTarget(nil, action: action, for: .touchUpInside)
         return button
     }
-    
+
     func makeTableView(withCells cells: (type: UITableViewCell.Type, identifier: String)...) -> UITableView {
         let tableView = UITableView()
         tableView.separatorStyle = .none
@@ -53,13 +63,13 @@ struct UICreator {
         tableView.keyboardDismissMode = UIScrollView.KeyboardDismissMode.onDrag
         return tableView
     }
-    
+
     func makeView(bacgroundColor: UIColor = .clear) -> UIView {
         let uiView = UIView()
         uiView.backgroundColor = bacgroundColor
         return uiView
     }
-    
+
     func makeStackView(axis: NSLayoutConstraint.Axis = .horizontal,
                        alignment: UIStackView.Alignment = .fill,
                        distribution: UIStackView.Distribution = .fill,
