@@ -103,9 +103,7 @@ extension ContactsListController: UITableViewDelegate {
         return config
     }
 
-    func tableView(_ tableView: UITableView,
-                   editingStyleForRowAt indexPath: IndexPath
-    ) -> UITableViewCell.EditingStyle {
+    func tableView(_ tableView: UITableView, willBeginEditingRowAt indexPath: IndexPath) {
         tableView.subviews.forEach { subview in
             if String(describing: type(of: subview)) == "_UITableViewCellSwipeContainerView" {
                 if let actionView = subview.subviews.first,
@@ -119,7 +117,6 @@ extension ContactsListController: UITableViewDelegate {
                 }
             }
         }
-        return .delete
     }
 }
 
