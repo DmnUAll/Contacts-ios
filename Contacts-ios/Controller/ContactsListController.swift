@@ -81,7 +81,7 @@ extension ContactsListController: UITableViewDelegate {
                    trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath
     ) -> UISwipeActionsConfiguration? {
         let removeButton = UIContextualAction(style: .destructive,
-                                                     title: "Удалить") { [weak self] _, _, _ in
+                                              title: "Удалить") { [weak self] _, _, _ in
             guard let self else { return }
             let alertController = UIAlertController(title: "Уверены что хотите удалить контакт?",
                                                     message: nil,
@@ -97,11 +97,29 @@ extension ContactsListController: UITableViewDelegate {
             alertController.addAction(cancelAction)
             self.present(alertController, animated: true)
         }
-        removeButton.backgroundColor = UIColor.ypRed
-
+        removeButton.backgroundColor = .red.withAlphaComponent(0)
         let config = UISwipeActionsConfiguration(actions: [removeButton])
         config.performsFirstActionWithFullSwipe = true
         return config
+    }
+
+    func tableView(_ tableView: UITableView,
+                   editingStyleForRowAt indexPath: IndexPath
+    ) -> UITableViewCell.EditingStyle {
+        tableView.subviews.forEach { subview in
+            if String(describing: type(of: subview)) == "_UITableViewCellSwipeContainerView" {
+                if let actionView = subview.subviews.first,
+                   String(describing: type(of: actionView)) == "UISwipeActionPullView" {
+                    actionView.layer.cornerRadius = 24
+                    actionView.layer.masksToBounds = true
+                    actionView.backgroundColor = .ypRed
+                    (actionView.subviews.first as? UIButton)?.titleLabel?.font = UIFont.appFont(.regular, withSize: 16)
+                    actionView.frame.size.height -= 4
+                    actionView.frame.size.width = 8
+                }
+            }
+        }
+        return .delete
     }
 }
 
